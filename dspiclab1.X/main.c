@@ -132,7 +132,6 @@ void __attribute__((interrupt, no_auto_psv)) _T1Interrupt(void){
 void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void){
     
     unsigned int temp_data;
-//    unsigned short int i;
     AD1CON1bits.SAMP = 0;  
     while ( !AD1CON1bits.DONE );
     temp_data = ADC1BUF0;

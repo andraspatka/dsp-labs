@@ -52,10 +52,10 @@ extern "C" {
     
 extern char add_uints(char,char);
 
-uint16_t memXdata[10] __attribute__ ((space(xmemory), address(0x1000))) = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-uint16_t memYdata[10] __attribute__ ((space(ymemory), address(0x5000))) = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+uint16_t memXdata[10] __attribute__ ((space(xmemory), address(0x1000))) = {10, 16, 3, 4, 5, 6, 7, 8, 9, 10};
+int16_t memYdata[10] __attribute__ ((space(ymemory), address(0x5000))) = {10, 5, -8, 7, 6, 5, 4, 3, 2, 1};
 
-extern void dsp_instr_test(uint16_t* Xmem, uint16_t* Ymem);
+extern void dsp_instr_test(uint16_t* Xmem, int16_t* Ymem);
 
 #ifdef	__cplusplus
 }
