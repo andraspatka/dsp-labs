@@ -141,11 +141,13 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void){
 
 int main(void) {
     
-    char c = add_uints(3, 4);
+//    char c = add_uints(3, 4);
+//    
+//    c = c + 1;
+//    
+//    dsp_instr_test(memXdata, memYdata);
     
-    c = c + 1;
-    
-    dsp_instr_test(memXdata, memYdata);
+    CoeffCalc(kp, ki, kd, coeff);
 //    SetupOscillator();
 //    initUART();
 //    InitADC();
