@@ -57,16 +57,17 @@ int16_t memYdata[10] __attribute__ ((space(ymemory), address(0x5000))) = {10, 5,
 
 extern void dsp_instr_test(uint16_t* Xmem, int16_t* Ymem);
 
-uint16_t kp = 1;
-uint16_t ki = 2;
-uint16_t kd = 3;
+int16_t kp = 1;
+int16_t ki = 2;
+int16_t kd = 3;
 
-uint16_t coeff[3] __attribute__ ((space(xmemory), address(0x5020)));
-uint16_t error[10] __attribute__ ((space(xmemory), address(0x1020))) = {1, 2, 3};
+int16_t coeff[3] __attribute__ ((space(ymemory), address(0x5020)));
+int16_t cout[2] __attribute__ ((space(ymemory), address(0x5026))) = {5, 6};
+int16_t error[3] __attribute__ ((space(xmemory), address(0x1020))) = {1, 2, 3};
 
-extern uint16_t pid(uint16_t * coeff, uint16_t * error, uint16_t * cout);
+extern int16_t PID(int16_t * coeff, int16_t * error, int16_t * cout);
 
-extern void CoeffCalc(uint16_t kp, uint16_t ki, uint16_t kd, uint16_t * coeff);
+extern void CoeffCalc(int16_t kp, int16_t ki, int16_t kd, int16_t * coeff);
 
 #ifdef	__cplusplus
 }

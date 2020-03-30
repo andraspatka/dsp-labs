@@ -46,7 +46,7 @@
 ;
 ; DO and REPEAT instruction usage.
 ;       0 level DO instruction
-;       0 REPEAT intructions
+;       1 REPEAT intructions
 
     .global _PID
 _PID:
@@ -65,7 +65,44 @@ _PID:
    
 ; Update the error terms
 
-; Reset CORCON and working registers   
+; Reset CORCON and working registers  
+ 
+    push CORCON   
+    push w7 ; helper register
+    push w8 ; x memory address register for coeff
+    push w10 ; y memory address register for error
+    push w11 ; y memory address register for control out
+    
+    mov w0, w10
+    mov w1, w8
+    mov w2, w11
+    
+    ; Put old u[n] to new u[n-1]
+    mov [w11], w7
+    inc2 w11, w11
+    mov w7, [w11]
+
+    ; initialize
+    clr A, [w8], w4, [w10], w5
+    
+    repeat #3
+    mac w4*w5, A, [w8]+=2, w4, [w10]+=2, w5
+    
+    lac [w11], B ; u[n-1]
+    add A
+    
+    ; restore original address, this is were the new u[n] is going to be
+    mov w2, w11
+    
+    sac A, w0
+    mov w0, [w11]
+    
+    
+    pop w11
+    pop w10
+    pop w8
+    pop w7
+    pop CORCON
     
 .ifdef __dsPIC33E
     pop	    DSRPAG
@@ -107,17 +144,32 @@ _CoeffCalc:
     push    DSRPAG
     movpag  #0x0001, DSRPAG
 .endif
+    push w7
+    mov w3, w7 ;w7 is an address register
     
-    ;calc kp
+    ; Calc coeff A = Kp + Ki + Kd
     lac w0, A
     lac w1, B
     add A ; A = kp + ki
     lac w2, B
     add A ; A = kp + ki + kd
-
+    sac A, [w7]
+    inc2 w7, w7
+    ; Calc coeff B = -(Kp + 2*Kd)
+    lac w2, A
+    add A ; 2 * Kd (B already contains w2 a.k.a Kp)
+    lac w0, B
+    add A ; Kp + 2 * Kd
+    neg A ; - (Kp + 2 * Kd)
+    sac A, [w7]
+    inc2 w7, w7
+    ; Calc coeff C = Kd
+    mov w2, [w7]
+    
+    pop w7
 .ifdef __dsPIC33E
     pop	    DSRPAG
 .endif
-    
+    return
     .end
     

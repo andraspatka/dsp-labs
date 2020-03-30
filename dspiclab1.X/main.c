@@ -148,6 +148,8 @@ int main(void) {
 //    dsp_instr_test(memXdata, memYdata);
     
     CoeffCalc(kp, ki, kd, coeff);
+    int16_t result = PID(coeff, error, cout);
+    result++;
 //    SetupOscillator();
 //    initUART();
 //    InitADC();
