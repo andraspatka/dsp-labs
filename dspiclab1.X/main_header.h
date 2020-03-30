@@ -65,6 +65,11 @@ int16_t coeff[3] __attribute__ ((space(ymemory), address(0x5020)));
 int16_t cout[2] __attribute__ ((space(ymemory), address(0x5026))) = {5, 6};
 int16_t error[3] __attribute__ ((space(xmemory), address(0x1020))) = {1, 2, 3};
 
+uint16_t A[2] __attribute__ ((space(xmemory), address(0x1040))) = {3,2};
+uint16_t B[2] __attribute__ ((space(ymemory), address(0x5040))) = {1,1};
+
+extern uint16_t ed_test(uint16_t*, uint16_t*);
+
 extern int16_t PID(int16_t * coeff, int16_t * error, int16_t * cout);
 
 extern void CoeffCalc(int16_t kp, int16_t ki, int16_t kd, int16_t * coeff);

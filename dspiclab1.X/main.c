@@ -145,7 +145,11 @@ int main(void) {
 //    
 //    c = c + 1;
 //    
-//    dsp_instr_test(memXdata, memYdata);
+    dsp_instr_test(memXdata, memYdata);
+    
+    uint16_t res = ed_test(A, B);
+    
+    res = res + 0;
     
     CoeffCalc(kp, ki, kd, coeff);
     int16_t result = PID(coeff, error, cout);

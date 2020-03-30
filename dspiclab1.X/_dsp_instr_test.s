@@ -36,7 +36,8 @@ _dsp_instr_test:
     clr B,[w8]+=2,w4,[w10]+=2,w5,[w13]+=2
     
     ed w4*w4, B, [w8]+=2, [w10]+=2, w4
-    
+    ed w4*w4, B, [w8]+=2, [w10]+=2, w4
+        
     ;BSET CORCON, #IF
     
     mov #0x2000, w4
