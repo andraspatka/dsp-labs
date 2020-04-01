@@ -83,11 +83,13 @@ _PID:
     mov w7, [w11]
 
     ; initialize
-    clr A, [w8], w4, [w10], w5
+    clr A
     
-    repeat #3
+    repeat #4
     mac w4*w5, A, [w8]+=2, w4, [w10]+=2, w5
     
+    sftac A, #1 ; the result is less than 8 bits, so it gets shifted left
+    sftac A, #-16 ; put the result in ACCUH
     lac [w11], B ; u[n-1]
     add A
     

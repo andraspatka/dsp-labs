@@ -139,18 +139,7 @@ void __attribute__((interrupt, no_auto_psv)) _T3Interrupt(void){
     IFS0bits.T3IF = 0;
 }
 
-int main(void) {
-    
-//    char c = add_uints(3, 4);
-//    
-//    c = c + 1;
-//    
-    dsp_instr_test(memXdata, memYdata);
-    
-    uint16_t res = ed_test(A, B);
-    
-    res = res + 0;
-    
+int main(void) {        
     CoeffCalc(kp, ki, kd, coeff);
     int16_t result = PID(coeff, error, cout);
     result++;

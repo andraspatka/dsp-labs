@@ -21,7 +21,7 @@ _ed_test:
      edac       w4*w4, A, [w8], [w10], w4
      edac       w4*w4, A, [w8], [w10], w4
 
-     mov 0x0022, w0
+    sftac A, #-16
      sac                A, w0
 
      pop                w10
