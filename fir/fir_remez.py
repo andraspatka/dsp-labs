@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     sample_rate = 1000
     cutoff_hz = 250
-    stop_hz = 50
+    stop_hz = [40, 60]
     stop_width_hz = 2
 
     # ------------------------------------------------
@@ -19,25 +19,15 @@ if __name__ == "__main__":
     # The Nyquist rate of the signal.
     nyq_rate = sample_rate / 2.0
 
-    # The desired width of the transition from pass to stop,
-    # relative to the Nyquist rate.  We'll design the filter
-    # with a 5 Hz transition width.
-    width = 5.0 / nyq_rate
+    num_taps = 750
 
-    # The desired attenuation in the stop band, in dB.
-    ripple_db = 60.0
+    # Lowpass FIR with remez algo
+    edges = [0, cutoff_hz, cutoff_hz + 10, 0.5 * sample_rate]
+    taps = remez(num_taps, edges, [1, 0], Hz=sample_rate)
 
-    # Compute the order and Kaiser parameter for the FIR filter.
-    N, beta = kaiserord(ripple_db, width)
-
-    # Use firwin with a Kaiser window to create a lowpass FIR filter.
-    taps = firwin(N, cutoff_hz / nyq_rate, window=('kaiser', beta))
-
-    width = 5.0 / nyq_rate
-    N, beta = kaiserord(ripple_db, width)
-
-    # Band stop filter
-    taps2 = firwin(N, [(stop_hz - stop_width_hz) / nyq_rate, (stop_hz + stop_width_hz) / nyq_rate])
+    # Bandstop FIR with remez algo
+    edges = [0, stop_hz[0] - stop_width_hz, stop_hz[0], stop_hz[1], stop_hz[1] + stop_width_hz, 0.5 * sample_rate]
+    taps2 = remez(num_taps, edges, [1, 0, 1], Hz=sample_rate)
 
     # Use lfilter to filter x with the FIR filter.
     filtered_x = lfilter(taps, 1.0, x)
@@ -50,12 +40,12 @@ if __name__ == "__main__":
     figure(1)
     subplot(211)
     plot(taps, 'bo-', linewidth=2)
-    title('Filter Coefficients - low pass (%d taps)' % len(taps))
+    title('Filter Coefficients - low pass (%d taps)' % num_taps)
     grid(True)
 
     subplot(212)
     plot(taps2, 'bo-', linewidth=2)
-    title('Filter Coefficients - band stop (%d taps)' % len(taps2))
+    title('Filter Coefficients - band stop (%d taps)' % num_taps)
     grid(True)
 
     # ------------------------------------------------
@@ -91,7 +81,7 @@ if __name__ == "__main__":
     # ------------------------------------------------
 
     # The phase delay of the filtered signal.
-    delay = 0.5 * (N - 1) / sample_rate
+    delay = 0.5 * (num_taps - 1) / sample_rate
 
     figure(4)
     # Plot the original signal.
@@ -100,7 +90,7 @@ if __name__ == "__main__":
     plot(t - delay, filtered_x, 'r-')
     # Plot just the "good" part of the filtered signal.  The first N-1
     # samples are "corrupted" by the initial conditions.
-    plot(t[N - 1:] - delay, filtered_x[N - 1:], 'g', linewidth=4)
+    plot(t[num_taps - 1:] - delay, filtered_x[num_taps - 1:], 'g', linewidth=4)
 
     xlabel('t')
     grid(True)
