@@ -13,11 +13,14 @@ if __name__ == "__main__":
     hs = dct(tri, type=2)
     fs = (0.5 + np.arange(len(hs))) / 2
 
-    compressed_len = 50
+    compressed_len = 40
 
     # inverse dct, lossy compression
     hs_compressed = hs[0:compressed_len]
     tri_compressed = idct(hs_compressed, type=2)
+    # scale it back to -1, 1
+    tri_compressed = tri_compressed / 500
+    t_compressed = np.linspace(0, 1, len(tri_compressed))
 
     peaks, _ = find_peaks(-hs, height=10)
 
@@ -30,5 +33,5 @@ if __name__ == "__main__":
     plt.subplot(413)
     plt.plot(fs[:compressed_len], hs[:compressed_len])
     plt.subplot(414)
-    plt.plot(t[:compressed_len], tri_compressed)
+    plt.plot(t_compressed, tri_compressed)
     plt.show()
