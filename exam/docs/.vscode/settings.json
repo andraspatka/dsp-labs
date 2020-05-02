@@ -1,0 +1,20 @@
+{
+    "spellright.language": [
+        "en_US",
+        "hu_HU"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ],
+
+    "latex-workshop.latex.recipes": [
+		{
+			"name": "pdflatex",
+			"tools": [
+				"pdflatex"
+			]
+		}
+	],
+}
