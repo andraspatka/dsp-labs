@@ -14,3 +14,5 @@ plt.plot(f(t).real, f(t).imag, "b")
 plt.subplot(212)
 plt.plot(c(t).real, c(t).imag, "b")
 plt.show()
+
+
