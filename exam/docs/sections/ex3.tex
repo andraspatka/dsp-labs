@@ -3,14 +3,24 @@
 
 \subsection{Python rész}
 
-\subsubsection{Súlyfüggvény}
+\subsubsection{Súlyfüggvény ábrázolása}
 
 A következő ábrán látható a FIR szűrő súlyfüggvénye, a háromszög ablak és az ablakozás elvégzése utáni súlyfüggvény. Az ablakozás a súlyfüggvény beszorzása egy adott függvénnyel. Egyes típusú FIR szűrő, mivel páratlan a súlyfüggvény nem nulla elemeinek száma (N=17) és a súlyfüggvény szimmetrikus.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{figures/h.png}
+    \includegraphics[scale=0.6]{figures/h.png}
     \caption{FIR súlyfüggvény, háromszög ablakkal}
+\end{figure}
+
+\subsubsection{Ablakozás}
+
+Ablakozással a Gibb's hatást ki lehet küszöbölni, viszont az átmeneti tartomány így szélesebb lesz
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figures/fir_gibbs.png}
+    \caption{Szűrő spektruma ablakozással és ablakozás nélkül}
 \end{figure}
 
 \subsubsection{Szűrés}
@@ -19,7 +29,7 @@ FIR szűrőnél a szűrt érték kiszámítható a bemeneti jel és a FIR súlyf
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{figures/fir_sin.png}
+    \includegraphics[scale=0.6]{figures/fir_sin.png}
     \caption{Bemeneti jel, két szinusz összege}
 \end{figure}
 
@@ -27,6 +37,16 @@ A konvolúció elvégzése után a 470 Hz-es szinusz jelt ki sikerült szűrni:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.5]{figures/fir_no_win.png}
-    \caption{Szűrés eredménye}
+    \includegraphics[scale=0.6]{figures/fir_no_win.png}
+    \caption{Szűrés eredménye - ablakozás nélkül}
 \end{figure}
+
+Szűrés az ablakozott súlyfüggvénnyel:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{figures/fir_win.png}
+    \caption{Szűrés eredménye - ablakozással}
+\end{figure}
+
+Az ablakozás hátránya, hogy az átmeneti tartomány szélesebb lesz. Mivel a 470 Hz-es jel közel van a vágási frekvenciához, ezért a szélesebb átmeneti tartomány miatt ennek a jelnek a csillapítása kisebb lesz, mint az ablakozás nélküli súlyfüggvénnyel való szűrésnél. Viszont ablakozás nélkül, az áteresztő tartományba eső jelek nem mennének át változatlanul, egyesek csillapítva, mások erősítve lennének.
